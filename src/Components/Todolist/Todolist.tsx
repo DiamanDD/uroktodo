@@ -1,8 +1,11 @@
 import React, {ChangeEvent} from "react";
-import {Button} from "../Button";
+import {ButtonComponent} from "../ButtonComponent";
 import {INputElement} from "../INputElement/INputElement";
 import {PropsType} from "../../App"
 import {EditebleSpan} from "../EditebleSpan/EditebleSpan";
+import style from "./Todolist.module.css"
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 
 
 export function Todolist(props: PropsType) {
@@ -23,41 +26,94 @@ export function Todolist(props: PropsType) {
         props.setNewTitleTodolist(newTitle, id)
     }
     return <div>
-        <h3><EditebleSpan title={title} setNewTitle={setNewTitleTask}/></h3>
-        <div>
-            <INputElement onClickHandler={addInputItem}/>
-        </div>
-        <ul>
-            {
+        <Grid container spacing={2} alignItems="center" justifyContent="center">
+            <Grid item xs={12}>
 
-                tasks.map(t => {
-                    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                        props.setchangeStyatus(t.id, e.currentTarget.checked, id)
+                <h3><EditebleSpan title={title} setNewTitle={setNewTitleTask} label={props.lable}/></h3>
+            </Grid>
+            <Grid item>
+                <div>
+                    <INputElement onClickHandler={addInputItem} />
+                </div>
+            </Grid>
+            <Grid item>
+                <div>
+                    {
+
+                        tasks.map(t => {
+                            const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+                                props.setchangeStyatus(t.id, e.currentTarget.checked, id)
+                            }
+                            const setNewTitleTask = (newTitle: string) => {
+                                props.setNewTitleTask(t.id, newTitle, id)
+                            }
+                            const onClickHandler = () => {
+                                removeTascks(t.id, id)
+                            }
+                            return (
+                                <div key={t.id} className={style.taskItems}>
+                                    <Grid container xs={12} className={style.taskItems} justifyContent="center">
+                                        <Grid container item alignItems="center" className={style.element} xs={2}
+                                              justifyContent="center">
+                                            <input onChange={onChangeHandler} type="checkbox" checked={t.isDone}/>
+                                        </Grid>
+                                        <Grid container justifyContent="center" alignItems="center" item
+                                              className={style.element} xs={8}>
+                                            <EditebleSpan title={t.title} setNewTitle={setNewTitleTask}
+                                                          label={t.lable}/>
+                                        </Grid>
+                                        <Grid container justifyContent="center" alignItems="center" item xs={2}
+                                              className={style.element}>
+                                            <ButtonComponent onClick={onClickHandler}/>
+                                        </Grid>
+                                    </Grid>
+                                </div>
+                            )
+                        })
                     }
-                    const setNewTitleTask = (newTitle: string) => {
-                        props.setNewTitleTask(t.id, newTitle, id)
-                    }
-                    const onClickHandler = () => {
-                        removeTascks(t.id, id)
-                    }
-                    return (<li key={t.id}>
-                        <input onChange={onChangeHandler} type="checkbox" checked={t.isDone}/>
-                        <EditebleSpan title={t.title} setNewTitle={setNewTitleTask}/>
-                        <Button onClick={onClickHandler}/>
-                    </li>)
-                })
-            }
-        </ul>
-        <div>
-            <button className={props.fielter === "All" ? "active-filter" : ""} onClick={onClickStateAll}>
-                All
-            </button>
-            <button className={props.fielter === "Active" ? "active-filter" : ""} onClick={onClickStateActive}>
-                Active
-            </button>
-            <button className={props.fielter === "Completed" ? "active-filter" : ""} onClick={onClickStateCompleted}>
-                Completed
-            </button>
-        </div>
+                </div>
+            </Grid>
+            <Grid item xs={12}>
+                <div>
+                    <Grid
+                        container
+                        spacing={1}
+                        direction="row"
+                        justifyContent="center">
+                        <Grid item>
+                            <Button
+                                onClick={onClickStateAll}
+                                variant={props.fielter === "All" ? "contained" : "outlined"}
+                                color="primary">
+                                All
+                            </Button>
+                        </Grid>
+                        <Grid item>
+
+                            <Button
+
+                                onClick={onClickStateActive}
+                                variant={props.fielter === "Active" ? "contained" : "outlined"}
+                                color="primary">
+                                Active
+                            </Button>
+                        </Grid>
+                        <Grid item>
+
+                            <Button
+
+                                onClick={onClickStateCompleted}
+                                variant={props.fielter === "Completed" ? "contained" : "outlined"}
+                                color="primary">
+                                Completed
+                            </Button>
+                        </Grid>
+
+                    </Grid>
+
+
+                </div>
+            </Grid>
+        </Grid>
     </div>
 }

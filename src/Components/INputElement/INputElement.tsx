@@ -1,4 +1,8 @@
+import { TextField } from "@material-ui/core";
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+
 import React, {useState, ChangeEvent, KeyboardEvent} from "react";
+
 
 
 type InputPropsType = {
@@ -7,19 +11,19 @@ type InputPropsType = {
 
 export const INputElement = (props: InputPropsType) => {
     const [inputState, setInputState] = useState("")
-    const [error, seterorr] = useState("")
+    const [errorN, setErrorN] = useState("")
     const onClickOnInput = (event: ChangeEvent<HTMLInputElement>) => {
         setInputState(event.currentTarget.value)
     }
     const onKeyPressOnInput = (e: KeyboardEvent<HTMLInputElement>) => {
-        seterorr("")
+        setErrorN("")
         if (e.key === "Enter") {
             addInputButtonCkick()
         }
     }
     const addInputButtonCkick = () => {
         if (inputState.trim() === "") {
-            seterorr("Ошибка")
+            setErrorN("Ошибка")
             return
         }
         props.onClickHandler(inputState)
@@ -27,13 +31,21 @@ export const INputElement = (props: InputPropsType) => {
     }
     return (
         <>
-            <input
-                className={error ? "error" : ""}
-                onKeyPress={onKeyPressOnInput}
-                onChange={onClickOnInput}
-                value={inputState}/>
-            <button onClick={addInputButtonCkick}>+</button>
-            <div className={error ? "error-message" : ""}>{error}</div>
+            <TextField
+
+                    id="standard-basic"
+                       label={inputState}
+
+                       onKeyPress={onKeyPressOnInput}
+                       onChange={onClickOnInput}
+                       value={inputState}
+                       helperText={errorN}
+                        error={errorN ? true : false}
+
+            />
+           <AddCircleOutlineIcon onClick={addInputButtonCkick} color="primary"/>
+
+
         </>
 
     )
