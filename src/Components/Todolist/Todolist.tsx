@@ -6,10 +6,12 @@ import {EditebleSpan} from "../EditebleSpan/EditebleSpan";
 import style from "./Todolist.module.css"
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import { IconButton } from "@material-ui/core";
+import {Delete} from "@material-ui/icons";
 
 
 export function Todolist(props: PropsType) {
-    let {title, tasks, addInputValue, removeTascks, stateHandler, id} = props
+    let {title, tasks, addInputValue, removeTascks, stateHandler, id,removeTodolist} = props
     const onClickStateAll = () => {
         stateHandler("All", id)
     }
@@ -25,11 +27,28 @@ export function Todolist(props: PropsType) {
     const setNewTitleTask = (newTitle: string) => {
         props.setNewTitleTodolist(newTitle, id)
     }
+
+    const onClockRemoveTodolist=()=>{
+
+        removeTodolist(id)
+    }
     return <div>
         <Grid container spacing={2} alignItems="center" justifyContent="center">
             <Grid item xs={12}>
-
+                <Grid container xs={12} className={style.taskItems} justifyContent="center">
+                    <Grid container item alignItems="center" className={style.element} xs={8}
+                        >
                 <h3><EditebleSpan title={title} setNewTitle={setNewTitleTask} label={props.lable}/></h3>
+                    </Grid>
+                    <Grid container item alignItems="center" className={style.element} xs={2}
+                          justifyContent="center">
+                        <IconButton onClick={onClockRemoveTodolist} aria-label="delete" color="primary">
+                            <Delete/>
+                        </IconButton>
+
+                    </Grid>
+                </Grid>
+
             </Grid>
             <Grid item>
                 <div>
