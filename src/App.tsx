@@ -155,10 +155,10 @@ function App() {
         return (
 
 
-            <Grid item xs>
+            <Grid item  key={tl.id} >
                 <Paper elevation={3} className={style.todolist}>
                     <Todolist
-                        key={tl.id}
+
                         id={tl.id}
                         title={tl.title}
                         tasks={getTasksForTodolist(tl)}

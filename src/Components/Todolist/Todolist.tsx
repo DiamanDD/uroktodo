@@ -35,13 +35,13 @@ export function Todolist(props: PropsType) {
     return <div>
         <Grid container spacing={2} alignItems="center" justifyContent="center">
             <Grid item xs={12}>
-                <Grid container xs={12} className={style.taskItems} justifyContent="center">
-                    <Grid container item alignItems="center" className={style.element} xs={8}
+                <Grid container  className={style.taskItems} justifyContent="center">
+                    <Grid  item  className={style.element} xs={8}
                         >
                 <h3><EditebleSpan title={title} setNewTitle={setNewTitleTask} label={props.lable}/></h3>
                     </Grid>
-                    <Grid container item alignItems="center" className={style.element} xs={2}
-                          justifyContent="center">
+                    <Grid  item  className={style.element} xs={2}
+                         >
                         <IconButton onClick={onClockRemoveTodolist} aria-label="delete" color="primary">
                             <Delete/>
                         </IconButton>
@@ -71,7 +71,7 @@ export function Todolist(props: PropsType) {
                             }
                             return (
                                 <div key={t.id} className={style.taskItems}>
-                                    <Grid container xs={12} className={style.taskItems} justifyContent="center">
+                                    <Grid container className={style.taskItems} justifyContent="center">
                                         <Grid container item alignItems="center" className={style.element} xs={2}
                                               justifyContent="center">
                                             <input onChange={onChangeHandler} type="checkbox" checked={t.isDone}/>
