@@ -1,14 +1,21 @@
 import {TaskStateType} from "../App";
 import {v1} from "uuid";
-import { addNewTodolistAT, removeTodoListAT } from "./todolists-reducer";
+import {addNewTodolistAT, removeTodoListAT, TodolistID_1, TodolistID_2} from "./todolists-reducer";
 
 const REMOVE_TASK = "REMOVE_TASK"
 const ADD_NEW_TASK = "ADD_NEW_TASK"
-const CHANGE_STATUS_TASK="CHANGE_STATUS_TASK"
-const CHANGE_TASKTITLE="CHANGE_TASKTITLE"
-const FILTER_TASKS="FILTER_TASKS"
+const CHANGE_STATUS_TASK = "CHANGE_STATUS_TASK"
+const CHANGE_TASKTITLE = "CHANGE_TASKTITLE"
+const FILTER_TASKS = "FILTER_TASKS"
 
-type TaskAT = removeTascksAT | addNewTaskAT |changeStyatusTaskAT |changeTaskTitleAT |filterTasksAT | addNewTodolistAT |removeTodoListAT
+type TaskAT =
+    removeTascksAT
+    | addNewTaskAT
+    | changeStyatusTaskAT
+    | changeTaskTitleAT
+    | filterTasksAT
+    | addNewTodolistAT
+    | removeTodoListAT
 
 type removeTascksAT = ReturnType<typeof removeTascksAC>
 type addNewTaskAT = ReturnType<typeof addNewTaskAC>
@@ -28,23 +35,34 @@ export const addNewTaskAC = (newTitle: string, TodolistId: string) => ({
 } as const)
 export const changeStyatusTaskAC = (taskid: string, isDone: boolean, TodolistId: string) => ({
     type: CHANGE_STATUS_TASK,
-    taskid:taskid,
-    isDone:isDone,
+    taskid: taskid,
+    isDone: isDone,
     TodolistId: TodolistId
 } as const)
 export const changeTaskTitleAC = (taskid: string, newTitle: string, TodolistId: string) => ({
     type: CHANGE_TASKTITLE,
-    taskid:taskid,
-    newTitle:newTitle,
+    taskid: taskid,
+    newTitle: newTitle,
     TodolistId: TodolistId
 } as const)
 export const filterTasksAC = (TodolistId: string) => ({
     type: FILTER_TASKS,
-      TodolistId: TodolistId
+    TodolistId: TodolistId
 } as const)
 
+const InitialState: TaskStateType = ({
+        [TodolistID_1]: [
+            {id: v1(), title: "HTML&CSS", isDone: true, lable: "task"},
+            {id: v1(), title: "ReactJS", isDone: false, lable: "task"}
+        ],
+        [TodolistID_2]: [
+            {id: v1(), title: "HTML&CSS111", isDone: true, lable: "task"},
+            {id: v1(), title: "ReactJS111", isDone: false, lable: "task"}
+        ],
+    }
+)
 
-export const tasksReduser = (state: TaskStateType, action: TaskAT): TaskStateType => {
+export const tasksReduser = (state: TaskStateType = InitialState, action: TaskAT): TaskStateType => {
     switch (action.type) {
         case "REMOVE_TASK": {
             const stateCopy = {...state}
@@ -53,7 +71,7 @@ export const tasksReduser = (state: TaskStateType, action: TaskAT): TaskStateTyp
 
             return stateCopy
         }
-        case "ADD_NEW_TASK":{
+        case "ADD_NEW_TASK": {
             const stateCopy = {...state}
 
             const newTask = {
@@ -66,8 +84,7 @@ export const tasksReduser = (state: TaskStateType, action: TaskAT): TaskStateTyp
 
             return stateCopy
         }
-        case "CHANGE_STATUS_TASK":
-        {
+        case "CHANGE_STATUS_TASK": {
             const stateCopy = {...state}
 
             const newtask = stateCopy[action.TodolistId].find(t => t.id === action.taskid)
@@ -78,7 +95,7 @@ export const tasksReduser = (state: TaskStateType, action: TaskAT): TaskStateTyp
 
             return stateCopy
         }
-        case "CHANGE_TASKTITLE":{
+        case "CHANGE_TASKTITLE": {
             const stateCopy = {...state}
 
             let newtask = stateCopy[action.TodolistId].find(t => t.id === action.taskid)
@@ -89,18 +106,16 @@ export const tasksReduser = (state: TaskStateType, action: TaskAT): TaskStateTyp
 
             return stateCopy
         }
-        case "ADD_NEW_TODOLIST":
-        {
+        case "ADD_NEW_TODOLIST": {
             const stateCopy = {...state}
 
 
-
-            return {...stateCopy,[action.id]:[] }
+            return {...stateCopy, [action.id]: []}
         }
-        case "REMOVE_TODOLIST":{
+        case "REMOVE_TODOLIST": {
             const stateCopy = {...state}
 
-           delete stateCopy[action.TodolistId]
+            delete stateCopy[action.TodolistId]
             return stateCopy
         }
 
