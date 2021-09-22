@@ -45,7 +45,7 @@ export const changeTodolistTitleAC = (newTitle: string, TodolistId: string) => (
 export const TodolistID_1 = v1()
 export const TodolistID_2 = v1()
 const InitialState: Array<TodoListType> = [
-    {id: TodolistID_1, title: "Todo 1", filter: "All", lable: "todo"},
+    {id: TodolistID_1, title: 'Todo 1', filter: 'All', lable:'todo'},
     {id: TodolistID_2, title: "Todo 2", filter: "All", lable: "todo"}
 ]
 
@@ -64,9 +64,10 @@ export const todolistReducer = (stateTodolist: TodoListType[] = InitialState, ac
 
             }
             return [...stateTodolist, newTodoList]
-        case CHANGE_TODOLIST_FILTER:
-
-            return stateTodolist.map(tl => tl.id === action.TodolistId ? {...tl, filter: action.newFilterValue} : tl)
+        case CHANGE_TODOLIST_FILTER: {
+            let statecopy=[...stateTodolist]
+            return [...statecopy.map(tl => tl.id === action.TodolistId ? {...tl, filter: action.newFilterValue} : tl)]
+        }
         case CHANGE_TODOLIST_TITLE: {
             let stateCopy = [...stateTodolist]
 

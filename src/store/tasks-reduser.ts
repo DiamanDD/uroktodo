@@ -50,7 +50,8 @@ export const filterTasksAC = (TodolistId: string) => ({
     TodolistId: TodolistId
 } as const)
 
-const InitialState: TaskStateType = ({
+const InitialState: TaskStateType = (
+    {
         [TodolistID_1]: [
             {id: v1(), title: "HTML&CSS", isDone: true, lable: "task"},
             {id: v1(), title: "ReactJS", isDone: false, lable: "task"}
@@ -84,28 +85,20 @@ export const tasksReduser = (state: TaskStateType = InitialState, action: TaskAT
 
             return stateCopy
         }
-        case "CHANGE_STATUS_TASK": {
-            const stateCopy = {...state}
+        case "CHANGE_STATUS_TASK":
+        {
+            return {...state,[action.TodolistId]:state[action.TodolistId].map(t=>(t.id===action.taskid?{...t,isDone:action.isDone}:t))}
+        }
 
-            const newtask = stateCopy[action.TodolistId].find(t => t.id === action.taskid)
-            if (newtask) {
-                newtask.isDone = action.isDone
-
+        case "CHANGE_TASKTITLE":
+            return {
+                ...state,
+                [action.TodolistId]: state[action.TodolistId].map(t => (t.id === action.taskid ? {
+                    ...t,
+                    title: action.newTitle
+                } : t))
             }
 
-            return stateCopy
-        }
-        case "CHANGE_TASKTITLE": {
-            const stateCopy = {...state}
-
-            let newtask = stateCopy[action.TodolistId].find(t => t.id === action.taskid)
-            if (newtask) {
-                newtask.title = action.newTitle
-
-            }
-
-            return stateCopy
-        }
         case "ADD_NEW_TODOLIST": {
             const stateCopy = {...state}
 

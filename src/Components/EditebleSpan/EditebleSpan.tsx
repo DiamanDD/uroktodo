@@ -7,15 +7,14 @@ type EditebleSpanPropsType = {
     label: string
 }
 
-
-export const EditebleSpan = (props: EditebleSpanPropsType) => {
+export const EditebleSpan = React.memo((props: EditebleSpanPropsType) => {
+    console.log("EditebleSpan")
     const [editMode, setEditMode] = useState(false)
     const [title, setTitle] = useState(props.title)
     const onEditMode = () => setEditMode(true)
     const offEditMode = () => {
         setEditMode(false)
         props.setNewTitle(title)
-
     }
     const onChangeNewTitle = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
@@ -24,7 +23,6 @@ export const EditebleSpan = (props: EditebleSpanPropsType) => {
     return (
         editMode
             ? <TextField id="standard-basic" label={props.label === "todo" ? "измените лист" : "измените задачу"}
-
                          value={title}
                          onBlur={offEditMode}
                          autoFocus={true}
@@ -32,4 +30,4 @@ export const EditebleSpan = (props: EditebleSpanPropsType) => {
 
             : <span onDoubleClick={onEditMode}>{props.title}</span>
     )
-}
+})
